@@ -1,0 +1,64 @@
+
+/* ===== FOOTER BASE ===== */
+.site-footer {
+    background-color: #111;
+    color: #fff;
+    padding: 60px 20px 20px;
+}
+
+/* ===== FOOTER COLUMNS ===== */
+.footer-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ===== EACH COLUMN ===== */
+.footer-col {
+    min-height: 1px; /* empty div collapse se bachane ke liye */
+}
+
+/* ===== MENU LIST ===== */
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-col li {
+    margin-bottom: 10px;
+}
+
+/* ===== MENU LINKS ===== */
+.footer-col a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-col a:hover {
+    color: #fff;
+}
+
+/* ===== FOOTER BOTTOM ===== */
+.site-footer > div:last-child {
+    border-top: 1px solid #333;
+    margin-top: 40px;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #aaa;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .footer-columns {
+        gap: 20px;
+    }
+}
+
+
+

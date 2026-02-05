@@ -1,0 +1,199 @@
+/* =========SUPPLIER CATEGORY GRID========= */
+
+/* ===SUPPLIER CATEGORY GRID heading== */
+
+
+.supplier-category-grid-section-heading {
+    display: flex;
+    align-items: center;
+    margin: 10px 0px;
+}
+
+.supplier-category-grid-section-heading p {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.3;
+    font-weight: 400;
+    color: #1f1f1f;
+    margin: 0;
+}
+
+/* Desktop Styling */
+@media (min-width: 768px) {
+    .supplier-category-grid-section-heading {
+        min-height: 84px;
+        width: 600px;
+        padding: 0;
+    }
+
+    .supplier-category-grid-section-heading p {
+        font-size: 32px;
+        letter-spacing: -0.89px;
+        line-height: 42px;
+    }
+}
+
+/* Mobile Styling */
+@media (max-width: 767px) {
+    .supplier-category-grid-section-heading {
+        min-height: 60px;
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .supplier-category-grid-section-heading p {
+        font-size: 24px;
+        letter-spacing: -1px;
+        line-height: 30px;
+    }
+}
+
+/* Small Devices */
+@media (max-width: 640px) {
+    .supplier-category-grid-section-heading {
+        padding: 0 15px;
+    }
+
+    .supplier-category-grid-section-heading p {
+        font-size: 20px;
+        letter-spacing: -0.5px;
+    }
+}
+
+
+
+.supplier-category-grid-section-heading {
+    padding: 20px 20px;
+    background: #fff;
+}
+
+.categories-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.category-card-grid {
+    width: 260px;
+}
+
+.category-card-grid a {
+    text-decoration: none;
+    color: #1f1f1f;
+    display: flex;
+    align-items: center; /* icon or text ek line me */
+    gap: 12px; /* icon or text k darmiyan space */
+}
+
+.category-card-grid img {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    border: 1px solid #eeeeee;
+    padding: 10px;
+    background: #fff;
+}
+
+.category-card-grid h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.category-card-grid span {
+    font-size: 12px;
+    color: #777;
+}
+
+.category-card-grid .text-wrapper {
+    display: flex;
+    flex-direction: column; /* heading upar, span neechay */
+}
+
+
+
+/* =========Supplier Category Slider Section======= */
+
+
+.supplier-category-slider-section {
+    padding: 40px 20px;
+    background: #ffffff;
+}
+
+.supplier-category-slider-section .category-card-grid {
+    width: 180px; /* adjust for 5 cards per view */
+    text-align: center;
+    transition: transform 0.3s, filter 0.3s;
+}
+
+.supplier-category-slider-section .category-card-grid a {
+    text-decoration: none;
+    color: #1f1f1f;
+    display: flex;
+    flex-direction: column; /* Column layout */
+    align-items: center;
+    gap: 10px;
+}
+
+.supplier-category-slider-section .category-card-grid img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid #b7d0ff;
+    padding: 17px;
+    background: #fff;
+}
+
+.supplier-category-slider-section .category-card-grid h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.supplier-category-slider-section .category-card-grid span {
+    font-size: 12px;
+    color: #777;
+}
+
+.supplier-category-slider-section .text-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Swiper Custom */
+.supplier-category-slider-section .myCategorySwiper {
+    max-width: 1100px;
+    margin: auto;
+    position: relative;
+}
+
+/* Navigation Arrows Styling */
+.supplier-category-slider-section .swiper-button-next,
+.supplier-category-slider-section .swiper-button-prev {
+    color: black;
+    background: rgba(255,255,255,0.9);
+    padding: 23px;
+    border-radius: 50%;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    transition: all 0.3s;
+}
+
+.supplier-category-slider-section .swiper-button-next:hover,
+.supplier-category-slider-section .swiper-button-prev:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+/* Error message style */
+.supplier-category-slider-section .no-categories {
+    text-align: center;
+    font-size: 16px;
+    color: red;
+    padding: 20px;
+}
+
+.supplier-category-slider-section .swiper-button-next::after,
+.supplier-category-slider-section .swiper-button-prev::after {
+    font-size: 20px;
+}
