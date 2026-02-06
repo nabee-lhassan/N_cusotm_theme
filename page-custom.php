@@ -46,8 +46,11 @@ Template Name: Custom Home
 $categories = get_terms([
     'taxonomy'   => 'supplier_category',
     'hide_empty' => false,
+     'parent'     => 0,   // ⭐ ONLY parent terms
     'order'      => 'ASC',
 ]);
+
+
 
 if(!empty($categories) && !is_wp_error($categories)):
 ?>
@@ -138,6 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
 $categories = get_terms([
     'taxonomy'   => 'supplier_category',
     'hide_empty' => false,
+     'parent'     => 0,   // ⭐ ONLY parent terms
     'order'      => 'ASC',
 ]);
 

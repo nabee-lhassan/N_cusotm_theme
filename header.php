@@ -1,304 +1,258 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-<meta charset="<?php bloginfo('charset'); ?>">
+    <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<?php wp_head(); ?>
+    <?php wp_head(); ?>
 
-<!-- Tailwind -->
-<script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- AOS Animation Library -->
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        AOS.init({
-            duration: 800,
-            once: true,
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                once: true,
+            });
         });
-    });
-</script>
+    </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
-
-
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
 </head>
 <body <?php body_class(); ?>>
 
-
 <header class="bg-white shadow-md fixed w-full z-50">
-   <div class="max-w-6xl mx-auto px-6 md:px-20 flex justify-between items-center h-20">
+    <div class="max-w-6xl mx-auto px-6 md:px-20 flex justify-between items-center h-20">
+        
+        <!-- Logo -->
+        <a href="<?php echo home_url(); ?>" class="text-2xl font-bold text-blue-600">MySite</a>
 
-    <!-- Logo -->
-    <a href="<?php echo home_url(); ?>" class="text-2xl font-bold text-blue-600">
-        MySite
-    </a>
-
-<?php
-$parent_categories = get_terms([
-    'taxonomy'   => 'supplier_category',
-    'hide_empty' => false,
-    'parent'     => 0,
-    'order'      => 'ASC',
-]);
-
-if (!empty($parent_categories) && !is_wp_error($parent_categories)):
-?>
-<nav class="suppliers-nav">
-    <ul class="main-menu">
-        <li class="group">
-            <a href="#" id="suppliers-toggle">Categories</a>
-
-            <!-- Mega Menu Start -->
-            <div class="mega-menu">
-                <div class="container">
-                    <div class="mega-wrapper">
-
-                        <!-- Parent Categories Column -->
-                       <ul class="parent-column">
-    <?php foreach ($parent_categories as $parent) : 
-        // Parent category icon ID fetch karo
-        $icon_id  = get_term_meta($parent->term_id, 'category_icon_id', true);
-    $icon_url = $icon_id ? wp_get_attachment_url($icon_id) : '';
-    ?>
-        <li class="border-t border-gray-300">
-            <?php if ($icon_url): ?>
-                <img src="<?php echo esc_url($icon_url); ?>" 
-                     alt="<?php echo esc_attr($parent->name); ?>" 
-                     class="parent-icon">
-            <?php endif; ?>
-            <a href="<?php echo esc_url(get_term_link($parent)); ?>">
-
-       
-                <?php echo esc_html($parent->name); ?>
-                <?php if ($parent->count > 0): ?>
-                         <?php 
-      $submenu_icon_id = 37; // yahan apna image attachment ID dalen
-      $submenu_icon_url = wp_get_attachment_url($submenu_icon_id); 
-      ?>
-      <img src="<?php echo esc_url($submenu_icon_url); ?>" alt="submenu_icon_url" class="submenu_icon">
-<?php echo esc_html($parent->count); ?> 
-
-                   
-                <?php endif ?>
-                    
-                
-            </a>
-        </li>
-    <?php endforeach; ?>
-</ul>
-
-
-                        <!-- Child Categories Column -->
-    <ul class="child-column">
-    <?php foreach ($parent_categories as $parent) :
-
-        // Get posts under this parent category
-        $child_posts = get_posts([
-            'post_type'      => 'supplier', 
-            'posts_per_page' => -1,
-            'orderby'        => 'title',
-            'order'          => 'ASC',
-            'tax_query'      => [
-                [
-                    'taxonomy' => 'supplier_category', // your taxonomy
-                    'field'    => 'term_id',
-                    'terms'    => $parent->term_id,
-                    'include_children' => true, // includes posts in child categories if any
-                ]
-            ],
+        <?php
+        $parent_categories = get_terms([
+            'taxonomy'   => 'supplier_category',
+            'hide_empty' => false,
+            'parent'     => 0,
+            'order'      => 'ASC',
         ]);
 
-         $post_count = count($child_posts);
+        if (!empty($parent_categories) && !is_wp_error($parent_categories)):
+        ?>
+        <!-- Mega Menu -->
+        <nav class="suppliers-nav">
+            <ul class="main-menu">
+                <li class="group">
+                    <a href="#" id="suppliers-toggle">Categories</a>
 
-        if (!empty($child_posts)) :
-    ?>
-        <li class="mega-column-group">
+                    <div class="mega-menu">
+                        <div class="container">
+                            <div class="mega-wrapper flex w-full">
 
-            <h4 class="mega-title">
-                <?php echo esc_html($parent->name); ?>
-            </h4>
+                                <!-- Parent Categories Column -->
+                                <ul class="parent-column">
+                                    <?php foreach ($parent_categories as $parent):
+                                        $icon_id  = get_term_meta($parent->term_id, 'category_icon_id', true);
+                                        $icon_url = $icon_id ? wp_get_attachment_url($icon_id) : '';
+                                    ?>
+                                    <li class="" data-id="<?php echo $parent->term_id ?>">
+                                        <?php if ($icon_url): ?>
+                                            <img src="<?php echo esc_url($icon_url); ?>" 
+                                                 alt="<?php echo esc_attr($parent->name); ?>" 
+                                                 class="parent-icon">
+                                        <?php endif; ?>
 
-            <ul class="mega-menu-columns">
-                <?php foreach ($child_posts as $post) : setup_postdata($post); 
-                    // $image_id  = get_post_meta($post->ID, 'category_image', true); // if saved as post meta
-                    // $image_url = $image_id ? wp_get_attachment_url($image_id) : '';
+                                        <a href="<?php echo $parent->count == 0 ? esc_url(get_term_link($parent)) : 'javascript:void(0);'; ?>" 
+                                           onclick="<?php if ($parent->count > 0) echo 'openSub(' . $parent->term_id . ')'; ?>">
+                                            <?php echo esc_html($parent->name); ?>
 
-                        $image_url = get_the_post_thumbnail_url($post->ID, 'full'); // 'full' ya 'medium', 'thumbnail'
+                                            <?php if ($parent->count > 0): ?>
+                                                <?php 
+                                                $submenu_icon_id = 37; // change as needed
+                                                $submenu_icon_url = wp_get_attachment_url($submenu_icon_id); 
+                                                ?>
+                                                <img src="<?php echo esc_url($submenu_icon_url); ?>" class="submenu_icon">
+                                            <?php endif; ?>
+                                        </a>
 
+                                        <!-- Child Categories Column -->
+                                        <ul class="child-column">
+                                            <?php
+                                            $child_terms = get_terms([
+                                                'taxonomy'   => 'supplier_category',
+                                                'hide_empty' => false,
+                                                'parent'     => $parent->term_id,
+                                                'order'      => 'ASC',
+                                            ]);
 
-                ?>
+                                            if (!empty($child_terms) && !is_wp_error($child_terms)):
+                                                foreach ($child_terms as $term):
+                                                    $term_link = get_term_link($term);
+                                                    $image_id  = get_term_meta($term->term_id, 'category_image', true);
+                                                    $image_url = $image_id ? wp_get_attachment_url($image_id) : '';
+                                                    $supplier_count = $term->count;
+                                            ?>
+                                            <li class="mega-column-group">
+                                                <ul class="mega-menu-columns">
+                                                    <li class="mega-column flex justify-center items-center gap-2">
+                                                        <a href="<?php echo esc_url($term_link); ?>" class="flex items-center gap-2">
+                                                            <?php if ($image_url): ?>
+                                                                <img src="<?php echo esc_url($image_url); ?>" 
+                                                                     alt="<?php echo esc_attr($term->name); ?>" 
+                                                                     class="w-12 h-12 rounded-lg object-cover">
+                                                            <?php endif; ?>
+                                                            <div>
+                                                                <h5 class="mega-sub-title"><?php echo esc_html($term->name); ?></h5>
+                                                                <p><?php echo esc_html($supplier_count); ?> Suppliers</p>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <?php endforeach; endif; ?>
+                                        </ul>
+                                    </li>
+                                    <?php endforeach; ?>
+                                </ul>
 
-                
-                    <li class="mega-column" style="display: flex; justify-content: center; align-items: center;gap: 10px;">
-
-                        <a href="<?php echo esc_url(get_permalink($post)); ?>">
-                        
-                        <?php if ($image_url) : ?>
-                            <img style="width: 50px; height:50px; border-radius: 10px; object-fit: cover;" src="<?php echo esc_url($image_url); ?>" 
-                                 alt="<?php echo esc_attr(get_the_title($post)); ?>">
-                        <?php endif; ?>
-
-                        <div>
-                            <h5 class="mega-sub-title">
-                            <?php echo esc_html(get_the_title($post)); ?>
-                        </h5>
-
-                                <p><?php echo esc_html($post_count); ?> Suppliers</p>
-                        </a>
-
+                            </div>
                         </div>
-
-                        
-
-                    </li>
-
-                <?php endforeach; wp_reset_postdata(); ?>
-            </ul>
-
-        </li>
-
-    <?php 
-        endif;
-    endforeach; 
-    ?>
-</ul>
-
-
-
                     </div>
-                </div>
-            </div>
-            <!-- Mega Menu End -->
+                </li>
+            </ul>
+        </nav>
 
-        </li>
-    </ul>
-</nav>
-<?php
-endif;
-?>
+        <script>
+            function openSub(parentId) {
+                alert('Opening subcategories for ID: ' + parentId);
+            }
+
+            document.addEventListener("DOMContentLoaded", function() {
+                const toggle = document.getElementById("suppliers-toggle");
+                const megaMenu = document.querySelector(".mega-menu");
+
+                toggle.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    megaMenu.classList.toggle("active");
+                });
+
+                megaMenu.addEventListener("click", function(e) {
+                    e.stopPropagation();
+                });
+
+                document.addEventListener("click", function(e) {
+                    if (e.target !== toggle) {
+                        megaMenu.classList.remove("active");
+                    }
+                });
+            });
+        </script>
+        <?php endif; ?>
+
+        <!-- Desktop Menu -->
+        <nav class="hidden md:flex items-center gap-8">
+            <?php
+            wp_nav_menu([
+                'theme_location' => 'main-menu',
+                'walker' => new My_Mega_Menu_Walker(),
+                'menu_class' => 'flex gap-8',
+            ]);
+            ?>
+        </nav>
+
+    </div>
+</header>
 
 <style>
-
-/* Navigation */
-.suppliers-nav {
-    position: relative;
-}
-
-.suppliers-nav .parent-column li {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Icon aur text ke beech space */
-    padding: 8px 10px;
-}
-
-.suppliers-nav .parent-column li a{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.suppliers-nav .parent-icon {
-    width: 14px;
-    height: 14px;
-    object-fit: cover;
-    display: inline-block;
-    color: gray;
-    border-radius: 4px; /* agar chahen to rounded */
-}
-.suppliers-nav .submenu_icon {
-    width: 18px;
-    height: 18px;
-    object-fit: cover;
-    display: inline-block;
-    border-radius: 4px; /* agar chahen to rounded */
-}
-
-
-/* Main Menu */
-.suppliers-nav .main-menu {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.suppliers-nav .main-menu li {
-    position: relative;
-}
-
-/* Toggle Link */
-.suppliers-nav #suppliers-toggle {
-    font-weight: bold;
-    color: #000;
-    text-decoration: none;
-    padding: 10px;
-    display: inline-block;
-}
-
-/* Mega Menu Wrapper */
+    /* -------------------------------
+   Mega Menu Wrapper
+---------------------------------*/
 .suppliers-nav .mega-menu {
     position: fixed;
     top: 14%;
     left: 0;
     width: 100vw;
-    background: #ffffff;
+    background: #fff;
     box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+    display: none; /* Hidden by default */
     z-index: 9999;
-    display: none;
 }
 
-/* Active State (For Click) */
+/* Show mega menu when active */
 .suppliers-nav .mega-menu.active {
-    display: block;
+    display: flex;
 }
 
-/* Layout Wrapper */
+/* Flex wrapper for parent and child columns */
 .suppliers-nav .mega-wrapper {
     display: flex;
     width: 100%;
 }
 
-/* Parent Column */
+/* -------------------------------
+   Parent Column (Main Menu)
+   Left side - 30% width
+---------------------------------*/
 .suppliers-nav .parent-column {
     width: 30%;
-    list-style: none;
-    padding: 10px;
     border-right: 1px solid #ddd;
+    height: 80vh;
+    overflow-y: auto;
+    padding: 10px;
+    list-style: none;
 }
 
 .suppliers-nav .parent-column li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding: 8px 10px;
+    cursor: pointer;
 }
 
 .suppliers-nav .parent-column a {
-    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     text-decoration: none;
-    font-weight: 400;
-    display: block;
+    color: #000;
+    width: 100%;
 }
 
-/* Child Column */
+.suppliers-nav .parent-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Submenu icon next to parent with children */
+.suppliers-nav .submenu_icon {
+    width: 18px;
+    height: 18px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* -------------------------------
+   Child Column (Sub Menu)
+   Right side - 70% width
+---------------------------------*/
 .suppliers-nav .child-column {
     width: 70%;
-    list-style: none;
     padding: 10px 20px;
-}
-
-/* Child Grid */
-.suppliers-nav .mega-menu-columns {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     list-style: none;
-    padding: 0;
 }
 
-/* Individual Column */
+/* Individual sub-category box */
 .suppliers-nav .mega-column {
     width: 23%;
     padding: 10px;
@@ -306,139 +260,54 @@ endif;
     text-align: center;
 }
 
-/* Images */
 .suppliers-nav .mega-column img {
     width: 64px;
     height: 64px;
     object-fit: cover;
-    display: block;
     margin: 0 auto 10px;
+    border-radius: 8px;
 }
 
-/* Titles */
-.suppliers-nav .mega-title {
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 18px;
-}
-
-.suppliers-nav .mega-sub-title {
-    font-weight: bold;
-    margin-bottom: 6px;
-    font-size: 14px;
-    color: black;
-    text-decoration: none;
-    text-align: left;
-}
-
-/* Links */
 .suppliers-nav .mega-column a {
     color: #2563eb;
     font-size: 14px;
     text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .suppliers-nav .mega-column a:hover {
     text-decoration: underline;
 }
 
-/* Responsive */
-@media (max-width: 992px) {
+.mega-sub-title {
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+/* -------------------------------
+   Responsive
+---------------------------------*/
+@media (max-width: 992px){
     .suppliers-nav .mega-wrapper {
         flex-direction: column;
     }
-
-    .parent-column,
-    .suppliers-nav .child-column {
+    .parent-column, .child-column {
         width: 100%;
         border: none;
     }
-
-    .suppliers-nav .mega-column {
+    .mega-column {
         width: 48%;
     }
 }
 
-@media (max-width: 480px) {
-    .suppliers-nav .mega-column {
+@media (max-width: 480px){
+    .mega-column {
         width: 100%;
     }
 }
 
 </style>
-
-
-<script>
-
-document.addEventListener("DOMContentLoaded", function() {
-
-    const toggle = document.getElementById("suppliers-toggle");
-    const megaMenu = document.querySelector(".mega-menu");
-
-    // Open on Click
-    toggle.addEventListener("click", function(e) {
-        e.preventDefault();
-        megaMenu.classList.toggle("active");
-    });
-
-    // Prevent closing when clicking inside mega menu
-    megaMenu.addEventListener("click", function(e) {
-        e.stopPropagation();
-    });
-
-    // Close when clicking anywhere outside
-    document.addEventListener("click", function(e) {
-        if (e.target !== toggle) {
-            megaMenu.classList.remove("active");
-        }
-    });
-
-});
-
-</script>
-
-    <!-- Desktop Menu -->
-    <nav class="hidden md:flex items-center space-x-8">
-        <?php
-        // wp_nav_menu([
-        //     'theme_location' => 'main-menu',
-        //     'container' => false,
-        //     'menu_class' => 'flex space-x-8',
-        //     'fallback_cb' => false,
-        //     'depth' => 1,
-        // ]);
-
-
-//         wp_nav_menu([
-//     'theme_location' => 'main-menu',
-//     'container'      => false,
-//     'menu_class'     => 'flex space-x-8',
-//     'fallback_cb'    => false,
-//     'walker'         => new My_Mega_Menu_Walker(),
-// ]);
-
-        wp_nav_menu([
-    'theme_location' => 'main-menu',
-    'walker' => new My_Mega_Menu_Walker(),
-    'menu_class' => 'flex gap-8',
-]);
-
-
-
-        ?>
-    </nav>
-
-   
-
-   
-
-</div>
-
-
-
-
-
-
-</header>
- 
-
