@@ -31,8 +31,23 @@
 <header class="bg-white shadow-md fixed w-full z-50">
     <div class="max-w-6xl mx-auto px-6 md:px-20 flex justify-between items-center h-20">
         
+
+
+ 
         <!-- Logo -->
-        <a href="<?php echo home_url(); ?>" class="text-2xl font-bold text-blue-600">MySite</a>
+<div class="site-logo">
+    <?php 
+    if (has_custom_logo()) {
+        the_custom_logo();
+    } else {
+        ?>
+        <a href="<?php echo home_url(); ?>" class="text-2xl font-bold text-blue-600">
+            <?php bloginfo('name'); ?>
+        </a>
+        <?php
+    }
+    ?>
+</div>
 
         <?php
         $parent_categories = get_terms([
@@ -45,13 +60,13 @@
         if (!empty($parent_categories) && !is_wp_error($parent_categories)):
         ?>
         <!-- Mega Menu -->
-        <nav class="suppliers-nav">
+        <nav class="products-nav">
             <ul class="main-menu">
                 <li class="group">
-                    <a href="#" id="suppliers-toggle">Categories</a>
+                    <a href="#" id="products-toggle">Categories</a>
 
                     <div class="mega-menu">
-                        <div class="container">
+                        <div class="my-container">
                             <div class="mega-wrapper flex w-full">
 
                                 <!-- Parent Categories Column -->
@@ -60,7 +75,7 @@
                                         $icon_id  = get_term_meta($parent->term_id, 'category_icon_id', true);
                                         $icon_url = $icon_id ? wp_get_attachment_url($icon_id) : '';
                                     ?>
-                                    <li class="" data-id="<?php echo $parent->term_id ?>">
+                                    <li class="parent-column-first-child" data-id="<?php echo $parent->term_id ?>">
                                         <?php if ($icon_url): ?>
                                             <img src="<?php echo esc_url($icon_url); ?>" 
                                                  alt="<?php echo esc_attr($parent->name); ?>" 
@@ -100,7 +115,7 @@
                                             <li class="mega-column-group">
                                                 <ul class="mega-menu-columns">
                                                     <li class="mega-column flex justify-center items-center gap-2">
-                                                        <a href="<?php echo esc_url($term_link); ?>" class="flex items-center gap-2">
+                                                        <a href="<?php echo esc_url($term_link); ?>" class="flex items-center gap-2 text-black">
                                                             <?php if ($image_url): ?>
                                                                 <img src="<?php echo esc_url($image_url); ?>" 
                                                                      alt="<?php echo esc_attr($term->name); ?>" 
@@ -108,7 +123,7 @@
                                                             <?php endif; ?>
                                                             <div>
                                                                 <h5 class="mega-sub-title"><?php echo esc_html($term->name); ?></h5>
-                                                                <p><?php echo esc_html($supplier_count); ?> Suppliers</p>
+                                                                <p><?php echo esc_html($supplier_count); ?> Products</p>
                                                             </div>
                                                         </a>
                                                     </li>
@@ -133,7 +148,7 @@
             }
 
             document.addEventListener("DOMContentLoaded", function() {
-                const toggle = document.getElementById("suppliers-toggle");
+                const toggle = document.getElementById("products-toggle");
                 const megaMenu = document.querySelector(".mega-menu");
 
                 toggle.addEventListener("click", function(e) {
@@ -172,7 +187,18 @@
     /* -------------------------------
    Mega Menu Wrapper
 ---------------------------------*/
-.suppliers-nav .mega-menu {
+
+header .site-logo img {
+    width: 200px;
+}
+
+.my-container{
+    
+    /* margin: 0 auto; */
+    width: 100%;
+}
+
+.products-nav .mega-menu {
     position: fixed;
     top: 14%;
     left: 0;
@@ -184,12 +210,12 @@
 }
 
 /* Show mega menu when active */
-.suppliers-nav .mega-menu.active {
+.products-nav .mega-menu.active {
     display: flex;
 }
 
 /* Flex wrapper for parent and child columns */
-.suppliers-nav .mega-wrapper {
+.products-nav .mega-wrapper {
     display: flex;
     width: 100%;
 }
@@ -198,33 +224,35 @@
    Parent Column (Main Menu)
    Left side - 30% width
 ---------------------------------*/
-.suppliers-nav .parent-column {
+.products-nav .parent-column {
     width: 30%;
     border-right: 1px solid #ddd;
-    height: 80vh;
+    height: 50vh;
     overflow-y: auto;
-    padding: 10px;
+    /* padding: 10px; */
     list-style: none;
 }
 
-.suppliers-nav .parent-column li {
+.products-nav .parent-column li {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     gap: 8px;
-    padding: 8px 10px;
+    padding: 13px 10px;
     cursor: pointer;
+    border-top: 1px solid #dcdcdc;
 }
 
-.suppliers-nav .parent-column a {
+.products-nav .parent-column a {
     display: flex;
     align-items: center;
     justify-content: space-between;
     text-decoration: none;
     color: #000;
     width: 100%;
+    width: 100%;
 }
 
-.suppliers-nav .parent-icon {
+.products-nav .parent-icon {
     width: 18px;
     height: 18px;
     object-fit: cover;
@@ -232,7 +260,7 @@
 }
 
 /* Submenu icon next to parent with children */
-.suppliers-nav .submenu_icon {
+.products-nav .submenu_icon {
     width: 18px;
     height: 18px;
     object-fit: cover;
@@ -243,24 +271,53 @@
    Child Column (Sub Menu)
    Right side - 70% width
 ---------------------------------*/
-.suppliers-nav .child-column {
+.products-nav .child-column {
+    width: 70%;
+    /* height: 100%; */
+    max-height: 50vh;
+    overflow-y: auto;
+    padding: 13px 53px;
+    display: none;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    position: fixed;
+    top: 18%;
+    left: 25rem;
+    /* background-color: black; */
+    
+}
+
+.parent-column-first-child:hover .child-column {
+    display: flex !important;
+}
+
+.products-nav .child-colu {
     width: 70%;
     padding: 10px 20px;
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     gap: 20px;
     list-style: none;
 }
 
+.hiden {
+    display: none;
+}
+
+.show {
+    display: flex;
+} 
+
 /* Individual sub-category box */
-.suppliers-nav .mega-column {
+.products-nav .mega-column {
     width: 23%;
     padding: 10px;
     box-sizing: border-box;
     text-align: center;
 }
 
-.suppliers-nav .mega-column img {
+.products-nav .mega-column img {
     width: 64px;
     height: 64px;
     object-fit: cover;
@@ -268,7 +325,7 @@
     border-radius: 8px;
 }
 
-.suppliers-nav .mega-column a {
+.products-nav .mega-column a {
     color: #2563eb;
     font-size: 14px;
     text-decoration: none;
@@ -277,7 +334,7 @@
     align-items: center;
 }
 
-.suppliers-nav .mega-column a:hover {
+.products-nav .mega-column a:hover {
     text-decoration: underline;
 }
 
@@ -286,13 +343,14 @@
     font-size: 14px;
     text-align: center;
     margin-bottom: 6px;
+    color: black;
 }
 
 /* -------------------------------
    Responsive
 ---------------------------------*/
 @media (max-width: 992px){
-    .suppliers-nav .mega-wrapper {
+    .products-nav .mega-wrapper {
         flex-direction: column;
     }
     .parent-column, .child-column {

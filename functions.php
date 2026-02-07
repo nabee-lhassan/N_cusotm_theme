@@ -73,6 +73,22 @@ add_theme_support('menus');
 add_theme_support('post-thumbnails');
 add_theme_support('title-tag');
 
+
+
+// Custom Logo Support - OPTIONAL (can be used via ACF or customizer)
+
+
+
+function mytheme_custom_logo_setup() {
+    add_theme_support('custom-logo', [
+        'flex-height' => true,
+        'flex-width'  => true,
+    ]);
+}
+add_action('after_setup_theme', 'mytheme_custom_logo_setup');
+
+
+
 /* =======================
    Menus
 ======================= */
@@ -88,8 +104,8 @@ register_nav_menus([
 require get_template_directory() . '/inc/walkers/class-my-custom-walker.php';
 
 // CPTs
-require get_template_directory() . '/inc/CPT/cpt-suppliers.php';
 require get_template_directory() . '/inc/CPT/cpt-products.php';
+// require get_template_directory() . '/inc/CPT/cpt-products.draft.php';
 require get_template_directory() . '/inc/CPT/taxonomies.php';
 require get_template_directory() . '/inc/CPT/taxonomy-category-icon.php';
 
