@@ -5,8 +5,8 @@ Template Name: Custom Home
 ?>
 <?php get_header(); ?>
 
-<section class="bg-blue-50 py-20">
-  <div class="max-w-5xl mx-auto px-5 text-center">
+<section class="bg-blue-50 py-20 ">
+  <div class="max-w-5xl mx-auto px-5 mt-20 text-center">
 
     <!-- Small heading -->
     <p class="text-sm text-gray-700 mb-4">US America's wholesale hub since 1997</p>

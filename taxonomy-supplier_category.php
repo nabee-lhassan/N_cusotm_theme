@@ -1,7 +1,9 @@
 <?php get_header(); ?>
 
 <?php
-$term = get_queried_object(); // current category
+$term = get_queried_object();
+$taxonomy = $term->taxonomy;
+
 $icon_id = get_term_meta($term->term_id, 'category_icon_id', true);
 $icon_url = $icon_id ? wp_get_attachment_url($icon_id) : '';
 
@@ -23,16 +25,13 @@ $bg_url = $bg_id ? wp_get_attachment_url($bg_id) : '';
     border-radius: 12px;
     background: #fff;
 }
-.category-content {
-    flex: 1;
-}
+.category-content { flex: 1; }
 .category-header {
     text-align: center;
     margin-bottom: 30px;
     padding: 50px 20px;
     border-radius: 12px;
     color: #fff;
-    position: relative;
     background-size: cover;
     background-position: center;
 }
@@ -52,25 +51,18 @@ $bg_url = $bg_id ? wp_get_attachment_url($bg_id) : '';
     border-radius: 12px;
     padding: 15px;
     text-align: center;
-    transition: all 0.3s ease;
+    transition: 0.3s ease;
 }
 .supplier-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
-.supplier-card img {
-    max-width: 80px;
-    margin-bottom: 10px;
-}
-.supplier-card h3 {
-    font-size: 16px;
-    margin-bottom: 5px;
-}
 </style>
 
+<!-- Header -->
 <div class="category-header" style="<?php echo $bg_url ? 'background-image:url('.esc_url($bg_url).');' : 'background:#333;'; ?>">
     <?php if($icon_url): ?>
-        <img src="<?php echo esc_url($icon_url); ?>" alt="<?php echo esc_attr($term->name); ?>">
+        <img src="<?php echo esc_url($icon_url); ?>">
     <?php endif; ?>
     <h1><?php echo esc_html($term->name); ?></h1>
     <?php if($term->description): ?>
@@ -79,77 +71,99 @@ $bg_url = $bg_id ? wp_get_attachment_url($bg_id) : '';
 </div>
 
 <div class="category-page">
-    <!-- Sidebar Filters -->
+
+    <!-- Sidebar -->
     <div class="category-sidebar">
-        <h3>Filters</h3>
+        <h3>Sub Categories</h3>
         <hr>
-        <h4>Locations</h4>
         <ul>
         <?php
-        // List all unique locations of suppliers in this category
-        $suppliers = get_posts([
-            'post_type' => 'supplier',
-            'tax_query' => [
-                [
-                    'taxonomy' => 'supplier_category',
-                    'field' => 'term_id',
-                    'terms' => $term->term_id,
-                ]
-            ],
-            'posts_per_page' => -1,
+        $sidebar_terms = get_terms([
+            'taxonomy' => $taxonomy,
+            'parent'   => $term->term_id,
+            'hide_empty' => false,
         ]);
-        $locations = [];
-        foreach($suppliers as $s){
-            $loc = get_post_meta($s->ID,'location',true);
-            if($loc) $locations[$loc] = $loc;
-        }
-        foreach($locations as $loc){
-            echo '<li><a href="#">'.esc_html($loc).'</a></li>';
+
+        if(!empty($sidebar_terms) && !is_wp_error($sidebar_terms)){
+            foreach($sidebar_terms as $st){
+                echo '<li><a href="'.esc_url(get_term_link($st)).'">'.esc_html($st->name).'</a></li>';
+            }
+        } else {
+            echo '<li>No sub categories</li>';
         }
         ?>
         </ul>
     </div>
 
-    <!-- Right Content -->
+    <!-- Content -->
     <div class="category-content">
         <div class="suppliers-wrapper">
         <?php
-        if($suppliers):
-            foreach($suppliers as $supplier):
-                $logo_id = get_post_meta($supplier->ID, 'logo', true);
-                $logo_url = $logo_id ? wp_get_attachment_url($logo_id) : 'https://via.placeholder.com/80';
-                $website = get_post_meta($supplier->ID,'website',true);
-                $location = get_post_meta($supplier->ID,'location',true);
-        ?>
-            <div class="supplier-card">
-                <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr($supplier->post_title); ?>">
-                <h3><?php echo esc_html($supplier->post_title); ?></h3>
-                <?php if($website): ?><a href="<?php echo esc_url($website); ?>" target="_blank"><?php echo esc_html($website); ?></a><?php endif; ?>
-                <?php if($location): ?><p><?php echo esc_html($location); ?></p><?php endif; ?>
 
-                <?php
-                // Featured products
-                $featured_products = get_post_meta($supplier->ID,'featured_products',true);
-                if($featured_products):
-                    echo '<ul style="text-align:left; margin-top:10px;">';
-                    foreach($featured_products as $p_id){
-                        $p = get_post($p_id);
-                        if($p){
-                            echo '<li><a href="'.get_permalink($p_id).'">'.esc_html($p->post_title).'</a></li>';
-                        }
-                    }
-                    echo '</ul>';
-                endif;
+        $display_terms = [];
+
+        // Agar current term parent level par hai
+        if($term->parent == 0){
+
+            $children = get_terms([
+                'taxonomy' => $taxonomy,
+                'parent'   => $term->term_id,
+                'hide_empty' => false,
+            ]);
+
+            foreach($children as $child){
+                $grandchildren = get_terms([
+                    'taxonomy' => $taxonomy,
+                    'parent'   => $child->term_id,
+                    'hide_empty' => false,
+                ]);
+
+                if(!empty($grandchildren)){
+                    $display_terms = array_merge($display_terms, $grandchildren);
+                }
+            }
+
+        } else {
+
+            // Agar already child level par hai
+            $display_terms = get_terms([
+                'taxonomy' => $taxonomy,
+                'parent'   => $term->term_id,
+                'hide_empty' => false,
+            ]);
+        }
+
+        $website = get_term_meta($term->term_id, 'category_website_url', true);
+
+
+        if(!empty($display_terms) && !is_wp_error($display_terms)){
+            foreach($display_terms as $dt){
                 ?>
-            </div>
-        <?php
-            endforeach;
-        else:
-            echo '<p>No suppliers found in this category.</p>';
-        endif;
+                <div class="supplier-card">
+                    <h3>
+                        <a href="<?php echo esc_url(get_term_link($dt)); ?>">
+                            <?php echo esc_html($dt->name); ?>
+                        </a>
+                    </h3>
+                    
+                    <?php if($website): ?>
+                        <p><a href="<?php echo esc_url($website); ?>" target="_blank">Visit Website</a></p>
+                    <?php endif; ?>
+                </div>
+                <?php
+
+                
+            }
+        } else {
+            echo '<p>No child categories found.</p>';
+        }
+
         ?>
         </div>
     </div>
+
 </div>
+
+
 
 <?php get_footer(); ?>

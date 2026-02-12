@@ -35,6 +35,8 @@
 
  
         <!-- Logo -->
+
+        <div class="flex gap-4 justify-center align-center">
 <div class="site-logo">
     <?php 
     if (has_custom_logo()) {
@@ -60,10 +62,21 @@
         if (!empty($parent_categories) && !is_wp_error($parent_categories)):
         ?>
         <!-- Mega Menu -->
-        <nav class="products-nav">
+        <nav class="products-nav flex items-center gap-8">
             <ul class="main-menu">
                 <li class="group">
-                    <a href="#" id="products-toggle">Categories</a>
+                    <a href="#" id="products-toggle" class="flex justify-center items-center text-dark font-medium py-2 px-4 hover:text-blue-600">
+                    <svg class="mr-[11.5px]" xmlns="http://www.w3.org/2000/svg" 
+                    xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="15" 
+                    data-sentry-element="svg" data-sentry-component="MenuIcon" 
+                    data-sentry-source-file="menuIcon.tsx"><path fill="none" 
+                    stroke="#1F2225" stroke-width="1.3" stroke-linecap="square" 
+                    stroke-miterlimit="10" transform="translate(0.650391 0.649902)" 
+                    d="M0 -1.4988011e-14L15 -1.4988011e-14M0 6.1428571L15 6.1428571M0 12.285714L15 12.285714" 
+                    fill-rule="evenodd" data-sentry-element="path" 
+                    data-sentry-source-file="menuIcon.tsx"></path>
+                </svg>    
+                    Categories</a>
 
                     <div class="mega-menu">
                         <div class="my-container">
@@ -108,22 +121,32 @@
                                             if (!empty($child_terms) && !is_wp_error($child_terms)):
                                                 foreach ($child_terms as $term):
                                                     $term_link = get_term_link($term);
-                                                    $image_id  = get_term_meta($term->term_id, 'category_image', true);
-                                                    $image_url = $image_id ? wp_get_attachment_url($image_id) : '';
+                                                    // $image_id  = get_term_meta($term->term_id, 'category_image', true);
+                                                    // $image_url = $image_id ? wp_get_attachment_url($image_id) : '';
+
+                                                    // bg image 
+                                                        $bg_id = get_term_meta($term->term_id, 'category_bg_id', true);
+                                                        $bg_url = $bg_id ? wp_get_attachment_url($bg_id) : '';
+                                                        
+
+              
+
+
+
                                                     $supplier_count = $term->count;
                                             ?>
                                             <li class="mega-column-group">
                                                 <ul class="mega-menu-columns">
                                                     <li class="mega-column flex justify-center items-center gap-2">
-                                                        <a href="<?php echo esc_url($term_link); ?>" class="flex items-center gap-2 text-black">
-                                                            <?php if ($image_url): ?>
-                                                                <img src="<?php echo esc_url($image_url); ?>" 
+                                                        <a href="<?php echo esc_url($term_link); ?>" class="flex flex-row items-center gap-2">
+                                                            <?php if ($bg_url): ?>
+                                                                <img style="max-width:100px;" src="<?php echo esc_url($bg_url); ?> ?> " 
                                                                      alt="<?php echo esc_attr($term->name); ?>" 
                                                                      class="w-12 h-12 rounded-lg object-cover">
                                                             <?php endif; ?>
                                                             <div>
                                                                 <h5 class="mega-sub-title"><?php echo esc_html($term->name); ?></h5>
-                                                                <p><?php echo esc_html($supplier_count); ?> Products</p>
+                                                                <p class="text-dark"><?php echo esc_html($supplier_count); ?> Products</p>
                                                             </div>
                                                         </a>
                                                     </li>
@@ -141,6 +164,7 @@
                 </li>
             </ul>
         </nav>
+        </div>
 
         <script>
             function openSub(parentId) {
@@ -200,11 +224,11 @@ header .site-logo img {
 
 .products-nav .mega-menu {
     position: fixed;
-    top: 14%;
+    top: 17%;
     left: 0;
     width: 100vw;
     background: #fff;
-    box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+    /* box-shadow: 0 10px 15px rgba(0,0,0,0.2); */
     display: none; /* Hidden by default */
     z-index: 9999;
 }
