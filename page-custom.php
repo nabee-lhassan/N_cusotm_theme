@@ -103,20 +103,40 @@ if(!empty($categories) && !is_wp_error($categories)):
 </section>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
+<?php
+$categories_slide = get_terms([
+    'taxonomy'   => 'supplier_category',
+    'hide_empty' => false,
+     'parent'     => 0,   // ⭐ ONLY parent terms
+    'order'      => 'ASC',
+]);
 
+if(!empty($categories_slide) && !is_wp_error($categories_slide)):
+?>
 
 <!-- HTML -->
 <div class="swiper mySwiper" style="height: 400px;">
   <div class="swiper-wrapper">
-    <div class="swiper-slide">Slide 1</div>
-    <div class="swiper-slide">Slide 2</div>
-    <div class="swiper-slide">Slide 3</div>
-    <div class="swiper-slide">Slide 4</div>
-    <div class="swiper-slide">Slide 5</div>
-    <div class="swiper-slide">Slide 6</div>
-    <div class="swiper-slide">Slide 7</div>
-    <div class="swiper-slide">Slide 8</div>
-    <div class="swiper-slide">Slide 9</div>
+
+   <?php foreach($categories as $cat):
+            $icon_id  = get_term_meta($cat->term_id, 'category_icon_id', true);
+            $icon_url = $icon_id ? wp_get_attachment_url($icon_id) : '';
+        ?>
+        <div class="swiper-slide">
+            <a href="<?php echo esc_url(get_term_link($cat)); ?>">
+                <?php if($icon_url): ?>
+                    <img src="<?php echo esc_url($icon_url); ?>" alt="<?php echo esc_attr($cat->name); ?>">
+                <?php endif; ?>
+
+                <div class="text-wrapper">
+                    <h3><?php echo esc_html($cat->name); ?></h3>
+                    <span>+<?php echo esc_html($cat->count); ?> products</span>
+                </div>
+            </a>
+        </div>
+        <?php endforeach; ?>
+        <?php endif; ?>
+    
   </div>
   <div class="swiper-pagination"></div>
 </div>
