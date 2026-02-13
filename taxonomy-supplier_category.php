@@ -42,7 +42,6 @@ $bg_url = $bg_id ? wp_get_attachment_url($bg_id) : '';
 }
 .suppliers-wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
 }
 .supplier-card {
@@ -53,18 +52,37 @@ $bg_url = $bg_id ? wp_get_attachment_url($bg_id) : '';
     text-align: center;
     transition: 0.3s ease;
 }
-.supplier-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+.div-brand-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.products-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+.product-item {
+    width: 120px;
+    text-align: center;
+}
+.product-item img {
+    max-width: 100%;
+    border-radius: 8px;
 }
 </style>
 
 <!-- Header -->
-<div class="category-header" style="<?php echo $bg_url ? 'background-image:url('.esc_url($bg_url).');' : 'background:#333;'; ?>">
+<div class="category-header" style="<?php echo $bg_url ? 'background-color:#0094f7;' : 'background:#0094f7;'; ?> min-height:350px;display:flex;flex-direction:column;justify-content:center;align-items:center;">
     <?php if($icon_url): ?>
-        <img src="<?php echo esc_url($icon_url); ?>">
+        <!-- <img src="<?php echo esc_url($icon_url); ?>"> -->
     <?php endif; ?>
-    <h1><?php echo esc_html($term->name); ?></h1>
+    <?php if($term->name): ?>
+    <h1 class="text-[35px] font-semibold"><?php echo esc_html($term->name); ?></h1>
+    <?php else: ?>
+    <h1>Category: <?php echo esc_html($term->name); ?></h1>
+    <?php endif; ?>
     <?php if($term->description): ?>
         <p><?php echo esc_html($term->description); ?></p>
     <?php endif; ?>
@@ -100,11 +118,11 @@ $bg_url = $bg_id ? wp_get_attachment_url($bg_id) : '';
         <div class="suppliers-wrapper">
         <?php
 
+        // Get child terms to display
         $display_terms = [];
 
-        // Agar current term parent level par hai
         if($term->parent == 0){
-
+            // Parent level: get grandchildren
             $children = get_terms([
                 'taxonomy' => $taxonomy,
                 'parent'   => $term->term_id,
@@ -124,8 +142,7 @@ $bg_url = $bg_id ? wp_get_attachment_url($bg_id) : '';
             }
 
         } else {
-
-            // Agar already child level par hai
+            // Child level: get direct children
             $display_terms = get_terms([
                 'taxonomy' => $taxonomy,
                 'parent'   => $term->term_id,
@@ -133,26 +150,71 @@ $bg_url = $bg_id ? wp_get_attachment_url($bg_id) : '';
             ]);
         }
 
-        $website = get_term_meta($term->term_id, 'category_website_url', true);
-
-
         if(!empty($display_terms) && !is_wp_error($display_terms)){
             foreach($display_terms as $dt){
+                $website = get_term_meta($dt->term_id, 'category_website_url', true);
                 ?>
                 <div class="supplier-card">
-                    <h3>
-                        <a href="<?php echo esc_url(get_term_link($dt)); ?>">
-                            <?php echo esc_html($dt->name); ?>
-                        </a>
-                    </h3>
-                    
-                    <?php if($website): ?>
-                        <p><a href="<?php echo esc_url($website); ?>" target="_blank">Visit Website</a></p>
+                    <div class="div-brand-row">
+                        <h3>
+                            <span class="text-[18px] font-medium">
+                                <?php echo esc_html($dt->name); ?>
+    </span>
+                        </h3>
+                        <?php if($website): ?>
+                            <p><a class="bg-[#0094f7] text-white px-[15px] py-[10px] rounded-[5px]" href="<?php echo esc_url($website); ?>" target="_blank">Visit Website</a></p>
+                        <?php endif; ?>
+                    </div>
+
+                    <?php if($dt->description): ?>
+                        <div class="category-description text-left my-10"><?php echo esc_html($dt->description); ?></div>
                     <?php endif; ?>
+
+                    <?php
+                    // Check if this term has children
+                    $child_check = get_terms([
+                        'taxonomy' => $taxonomy,
+                        'parent'   => $dt->term_id,
+                        'hide_empty' => false,
+                    ]);
+
+                    // If no children, show products
+                    if(empty($child_check)){
+                     $products = new WP_Query([
+    'post_type' => 'supplier', 
+    'posts_per_page' => 6,
+    'tax_query' => [
+        [
+            'taxonomy' => $taxonomy, 
+            'field'    => 'term_id',
+            'terms'    => $dt->term_id,
+        ]
+    ]
+]);
+
+
+                        if($products->have_posts()){
+                            echo '<div class="products-list">';
+                            while($products->have_posts()){
+                                $products->the_post();
+                                ?>
+                                <div class="product-item">
+                                    <a href="<?php the_permalink(); ?>">
+                                        <?php the_post_thumbnail('thumbnail'); ?>
+                                        <p><?php the_title(); ?></p>
+                                    </a>
+                                </div>
+                                <?php
+                            }
+                            echo '</div>';
+                            wp_reset_postdata();
+                        } else {
+                            echo '<p>No products found.</p>';
+                        }
+                    }
+                    ?>
                 </div>
                 <?php
-
-                
             }
         } else {
             echo '<p>No child categories found.</p>';
@@ -161,9 +223,6 @@ $bg_url = $bg_id ? wp_get_attachment_url($bg_id) : '';
         ?>
         </div>
     </div>
-
 </div>
-
-
 
 <?php get_footer(); ?>

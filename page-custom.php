@@ -102,6 +102,75 @@ if(!empty($categories) && !is_wp_error($categories)):
 
 </section>
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
+
+
+<!-- HTML -->
+<div class="swiper mySwiper" style="height: 400px;">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">Slide 1</div>
+    <div class="swiper-slide">Slide 2</div>
+    <div class="swiper-slide">Slide 3</div>
+    <div class="swiper-slide">Slide 4</div>
+    <div class="swiper-slide">Slide 5</div>
+    <div class="swiper-slide">Slide 6</div>
+    <div class="swiper-slide">Slide 7</div>
+    <div class="swiper-slide">Slide 8</div>
+    <div class="swiper-slide">Slide 9</div>
+  </div>
+  <div class="swiper-pagination"></div>
+</div>
+
+<!-- CSS -->
+<style>
+.swiper {
+  width: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ddd;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+</style>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+
+
+<!-- JS -->
+<script>
+var swiper = new Swiper(".mySwiper", {
+  slidesPerView: 4,       // 1 line me 4 slides desktop
+  spaceBetween: 30,       // slide ke beech gap
+  loop: true,             // infinite loop
+  autoplay: {
+    delay: 2500,          // auto slide delay
+    disableOnInteraction: false,
+  },
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+  breakpoints: {          // responsive
+    320: { slidesPerView: 1, spaceBetween: 10 },
+    640: { slidesPerView: 2, spaceBetween: 20 },
+    768: { slidesPerView: 3, spaceBetween: 20 },
+    1024: { slidesPerView: 4, spaceBetween: 30 },
+  }
+});
+</script>
+
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof Swiper !== 'undefined') {

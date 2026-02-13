@@ -44,7 +44,7 @@ function supplier_meta_box_html($post) {
     $logo = get_post_meta($post->ID, 'logo', true);
     $website = get_post_meta($post->ID, 'website', true);
     $location = get_post_meta($post->ID, 'location', true);
-    $featured_products = get_post_meta($post->ID, 'featured_products', true);
+    $contact_details = get_post_meta($post->ID, 'contact_details', true);
 
     ?>
     <p>
@@ -60,8 +60,8 @@ function supplier_meta_box_html($post) {
         <input type="number" name="supplier_logo" value="<?php echo esc_attr($logo); ?>" class="widefat">
     </p>
     <p>
-        <label>Featured Products (IDs comma separated): </label>
-        <input type="text" name="supplier_featured_products" value="<?php echo esc_attr(implode(',', (array)$featured_products)); ?>" class="widefat">
+        <label>Contact Details: </label>
+        <input type="text" name="supplier_contact_details" value="<?php echo esc_attr($contact_details); ?>" class="widefat">
     </p>
     <?php
 }
@@ -77,9 +77,8 @@ function supplier_save_meta($post_id) {
     if (isset($_POST['supplier_logo'])) {
         update_post_meta($post_id, 'logo', intval($_POST['supplier_logo']));
     }
-    if (isset($_POST['supplier_featured_products'])) {
-        $products = array_map('intval', explode(',', $_POST['supplier_featured_products']));
-        update_post_meta($post_id, 'featured_products', $products);
+    if (isset($_POST['supplier_contact_details'])) {
+        update_post_meta($post_id, 'contact_details', sanitize_text_field($_POST['supplier_contact_details']));
     }
 }
 add_action('save_post', 'supplier_save_meta');
