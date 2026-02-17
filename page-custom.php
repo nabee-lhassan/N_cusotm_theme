@@ -5,6 +5,12 @@ Template Name: Custom Home
 ?>
 <?php get_header(); ?>
 
+ <?php 
+$Site_url_main = get_site_url();
+$Site_url_home = $Site_url_main . '/wp-content/uploads/2026/02/';
+
+?>
+
 <section class="bg-blue-50 py-20 ">
   <div class="max-w-5xl mx-auto px-5 mt-20 text-center">
 
@@ -336,11 +342,7 @@ if(!empty($categories) && !is_wp_error($categories)):
   <!-- Tab Content -->
   <div class="grid md:grid-cols-2 gap-8 items-center">
 
-  <?php 
-$Site_url_main = get_site_url();
-$Site_url_home = $Site_url_main . '/wp-content/uploads/2026/02/';
-
-?>
+ 
 
 
     <!-- Buyers Tab -->
@@ -390,10 +392,237 @@ $Site_url_home = $Site_url_main . '/wp-content/uploads/2026/02/';
 
 
 
+<section class="bg-gray-100 py-16">
+  <div class="max-w-7xl mx-auto px-6">
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+      
+      <!-- Item 1 -->
+      <div>
+        <div class="w-16 h-16 mx-auto md:mx-0 flex items-center justify-center rounded-xl border border-blue-300 bg-blue-50 mb-6">
+          <!-- Tag Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" 
+               class="w-8 h-8 text-blue-600" 
+               fill="none" 
+               viewBox="0 0 24 24" 
+               stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M7 7h.01M3 11l8-8a2 2 0 012.828 0l7.172 7.172a2 2 0 010 2.828l-8 8a2 2 0 01-2.828 0L3 13.828A2 2 0 013 11z"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-semibold text-gray-900 mb-4">
+          Deals and steals
+        </h3>
+        <p class="text-gray-600 leading-relaxed">
+          Looking for a wholesale bargain? Exclusive deals and promotions are 
+          posted daily for registered buyers by the approved wholesalers on Wholesale Central.
+        </p>
+      </div>
+
+      <!-- Item 2 -->
+      <div>
+        <div class="w-16 h-16 mx-auto md:mx-0 flex items-center justify-center rounded-xl border border-yellow-300 bg-yellow-50 mb-6">
+          <!-- Lightning Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" 
+               class="w-8 h-8 text-yellow-500" 
+               fill="none" 
+               viewBox="0 0 24 24" 
+               stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-semibold text-gray-900 mb-4">
+          Instant Checkout
+        </h3>
+        <p class="text-gray-600 leading-relaxed">
+          Purchase merchandise with the click of a button with our instant checkout feature. 
+          Pay with credit card, digital wallets, bank transfers and more to make wholesale buying a breeze.
+        </p>
+      </div>
+
+      <!-- Item 3 -->
+      <div>
+        <div class="w-16 h-16 mx-auto md:mx-0 flex items-center justify-center rounded-xl border border-orange-300 bg-orange-50 mb-6">
+          <!-- Thumbs Up Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" 
+               class="w-8 h-8 text-orange-500" 
+               fill="none" 
+               viewBox="0 0 24 24" 
+               stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M14 9V5a3 3 0 00-6 0v4H5a2 2 0 00-2 2v2a2 2 0 002 2h3l1 5h7a2 2 0 002-2v-7a2 2 0 00-2-2h-2z"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-semibold text-gray-900 mb-4">
+          True wholesale pricing
+        </h3>
+        <p class="text-gray-600 leading-relaxed">
+          Other marketplaces charge suppliers hefty commissions—costs that get passed on to you. 
+          At Wholesale Central, suppliers pay 0% commission, so you get the best prices with no extra markup.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<section class="bg-gray-50 py-16">
+  <div class="max-w-7xl mx-auto px-6">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      
+      <!-- LEFT CONTENT -->
+      <div>
+        <h2 class="text-3xl md:text-4xl font-semibold text-gray-900 leading-snug mb-10">
+          Sourcing wholesale has <br class="hidden md:block"> never been easier
+        </h2>
+
+        <!-- Item 1 -->
+        <div class="flex gap-5 mb-8">
+          <div class="w-14 h-14 flex items-center justify-center rounded-xl bg-blue-600 text-white">
+            🔍
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold text-gray-900 mb-1">Search for products</h4>
+            <p class="text-gray-600">
+              Search and filter from our vast product and supplier offerings 
+              to find exactly what your business needs.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="flex gap-5 mb-8">
+          <div class="w-14 h-14 flex items-center justify-center rounded-xl border border-orange-300 bg-orange-50 text-orange-500">
+            🏷️
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold text-gray-900 mb-1">Find the best deal</h4>
+            <p class="text-gray-600">
+              See wholesale pricing from hundreds of wholesale suppliers 
+              with just one account.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="flex gap-5 mb-8">
+          <div class="w-14 h-14 flex items-center justify-center rounded-xl border border-yellow-300 bg-yellow-50 text-yellow-500">
+            ⚡
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold text-gray-900 mb-1">Effortless ordering</h4>
+            <p class="text-gray-600">
+              Your favorite payment method will be securely stored so you can 
+              checkout as soon as you find what you’re looking for.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="flex gap-5 mb-10">
+          <div class="w-14 h-14 flex items-center justify-center rounded-xl border border-blue-300 bg-blue-50 text-blue-500">
+            ✉️
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold text-gray-900 mb-1">Stay in the loop</h4>
+            <p class="text-gray-600">
+              Never miss out on promotions, news, and industry trends with our 
+              Buyer’s Network Newsletter.
+            </p>
+          </div>
+        </div>
+
+        <!-- CTA Button -->
+        <a href="#" 
+           class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
+          Create your free account →
+        </a>
+      </div>
+
+
+      <!-- RIGHT IMAGE SIDE -->
+      <div class="relative flex justify-center">
+        
+        <!-- Background Shape -->
+        <div class="absolute w-80 h-80 bg-blue-100 rounded-3xl top-10 right-10 hidden md:block"></div>
+
+        <!-- Main Image -->
+        <img src="<?php echo esc_url($Site_url_home); ?>image-17.jpg"
+             alt="Business person"
+             class="relative rounded-2xl shadow-lg w-72 md:w-96">
+
+        <!-- Floating Search Box -->
+        <!-- <div class="absolute bottom-6 left-6 bg-white shadow-lg rounded-full px-4 py-2 flex items-center gap-3 text-sm hidden md:flex">
+          <span class="text-gray-600">Search for <span class="text-blue-600 font-medium">headphones</span></span>
+          <div class="w-8 h-8 flex items-center justify-center bg-blue-600 text-white rounded-full">
+            🔍
+          </div>
+        </div> -->
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
 
 
 
 
+<?php
+$categories = get_terms([
+    'taxonomy'   => 'supplier_category',
+    'hide_empty' => false,
+    'parent'     => 0,
+    'order'      => 'ASC',
+]);
+
+if(!empty($categories) && !is_wp_error($categories)):
+?>
+
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <!-- Heading -->
+        <h2 class="text-3xl md:text-4xl font-semibold text-gray-900 mb-12">
+            Discover even more
+        </h2>
+
+        <!-- Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <?php foreach($categories as $cat): ?>
+                
+                <a href="<?php echo esc_url(get_term_link($cat)); ?>"
+                   class="flex items-center justify-between px-6 py-4 bg-white border border-gray-300 rounded-xl 
+                          hover:border-gray-400 hover:shadow-sm transition duration-200 group">
+
+                    <span class="text-gray-800 font-medium">
+                        <?php echo esc_html($cat->name); ?>
+                    </span>
+
+                    <!-- Arrow -->
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         class="w-5 h-5 text-gray-500 group-hover:translate-x-1 transition-transform duration-200"
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 5l7 7-7 7" />
+                    </svg>
+
+                </a>
+
+            <?php endforeach; ?>
+
+        </div>
+
+    </div>
+</section>
+
+<?php endif; ?>
 
 
 
