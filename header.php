@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -28,7 +30,7 @@
 </head>
 <body <?php body_class(); ?>>
 
-<header class="bg-white shadow-md fixed w-full z-50">
+<header class="bg-white shadow-md fixed top-0 w-full z-50">
     <div class="max-w-6xl mx-auto px-6 md:px-20 flex justify-between items-center h-20">
         
 
@@ -203,6 +205,11 @@
             ]);
             ?>
         </nav>
+
+        <a href="#" class="inline-block px-4 py-2 text-sm font-medium text-white bg-[#0094f7] rounded-lg hover:bg-blue-700 transition-colors duration-200">
+  Signin
+</a>
+
 
     </div>
 </header>
